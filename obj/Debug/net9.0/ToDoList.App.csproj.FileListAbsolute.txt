@@ -71,3 +71,4 @@
 /Users/masha/ToDoList.App/obj/Debug/net9.0/ToDoList.App.pdb
 /Users/masha/ToDoList.App/obj/Debug/net9.0/ToDoList.App.genruntimeconfig.cache
 /Users/masha/ToDoList.App/obj/Debug/net9.0/ref/ToDoList.App.dll
+/Users/masha/ToDoList.App/obj/Debug/net9.0/ToDoList.App.sourcelink.json

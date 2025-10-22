@@ -20,7 +20,7 @@
                Margin="0,0,0,12"
                Orientation="Horizontal">
       <!-- Поиск -->
-      <TextBox Width="220" MinWidth="140" Margin="0,0,8,8".≥
+      <TextBox Width="220" MinWidth="140" Margin="0,0,8,8"
                Watermark="Поиск"
                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
       <!-- Переключатель сортировки -->
