@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ToDoList.App.Views"
+        x:Class="ToDoList.App.Views.TaskDialog"
+        x:DataType="local:TaskDialog+TaskDraft"
+        Width="420" Height="360"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Title="{Binding DialogTitle}">
+
+  <Border Padding="16">
+    <StackPanel Spacing="10">
+      <!-- Заголовок окна -->
+      <TextBlock Text="{Binding DialogTitle}"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Center"
+                 Margin="0,0,0,8"/>
+
+      <!-- Поле заголовка -->
+      <StackPanel Spacing="4">
+        <TextBlock Text="Заголовок"/>
+        <TextBox Text="{Binding Title, Mode=TwoWay}" />
+      </StackPanel>
+
+      <!-- Поле описания -->
+      <StackPanel Spacing="4">
+        <TextBlock Text="Описание"/>
+        <TextBox Text="{Binding Description, Mode=TwoWay}"
+                 AcceptsReturn="True"
+                 Height="100" />
+      </StackPanel>
+
+      <!-- Поле дедлайна -->
+      <StackPanel Spacing="4">
+        <TextBlock Text="Дедлайн"/>
+        <DatePicker SelectedDate="{Binding Deadline, Mode=TwoWay}" />
+      </StackPanel>
+
+      <!-- Кнопки сразу под дедлайном -->
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="12"
+                  Margin="0,10,0,0">
+        <Button Content="Ок" Width="120" IsDefault="True" Click="OnOk"/>
+        <Button Content="Отмена" Width="100" Click="OnCancel"/>
+      </StackPanel>
+    </StackPanel>
+  </Border>
+</Window>

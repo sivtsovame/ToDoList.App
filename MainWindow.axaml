@@ -1,0 +1,109 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ToDoList.App.ViewModels"
+        xmlns:models="using:ToDoList.App.Models"
+        x:Class="ToDoList.App.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Width="980" Height="600"
+        MinWidth="600"
+        Title="ToDo List"
+        Background="{Binding SelectedBackgroundBrush}"
+        Foreground="Black">
+
+  <Window.DataContext>
+    <vm:MainViewModel/>
+  </Window.DataContext>
+
+  <DockPanel Margin="10">
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ — адаптивная -->
+    <WrapPanel DockPanel.Dock="Top"
+               Margin="0,0,0,12"
+               Orientation="Horizontal">
+      <!-- Поиск -->
+      <TextBox Width="220" MinWidth="140" Margin="0,0,8,8".≥
+               Watermark="Поиск"
+               Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      <!-- Переключатель сортировки -->
+      <CheckBox Margin="0,0,8,8"
+                Content="Выполненные сверху"
+                IsChecked="{Binding CompletedOnTop, Mode=TwoWay}" />
+      <!-- Цвет -->
+      <ComboBox Width="160" MinWidth="130" Margin="0,0,8,8"
+                ItemsSource="{Binding AvailableColors}"
+                SelectedItem="{Binding SelectedColor, Mode=TwoWay}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <!-- Кнопка 'Добавить' -->
+      <Button Content="Добавить"
+              Width="130" MinWidth="110" Margin="0,0,8,8"
+              Click="OnAddClick"/>
+    </WrapPanel>
+
+    <!-- СПИСОК КАРТОЧЕК -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <ItemsControl ItemsSource="{Binding FilteredTasks}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel Orientation="Horizontal"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="models:TaskItem">
+            <Border MinHeight="220" Width="240"
+                    Margin="8" Padding="10"
+                    BorderBrush="#D0D0D0" BorderThickness="1" CornerRadius="12">
+              <Grid ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto,*,Auto"
+                    ColumnSpacing="16">
+
+                <!-- Кнопки справа сверху: ✎ и ✕ -->
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
+                  <Button Content="✎" Padding="2" MinWidth="24" MinHeight="24"
+                          Click="OnEditClick"/>
+                  <Button Content="✕" Padding="2" MinWidth="24" MinHeight="24"
+                          Command="{Binding $parent[Window].DataContext.DeleteTaskCommand}"
+                          CommandParameter="{Binding}"/>
+                </StackPanel>
+
+                <!-- СОЗДАНО над заголовком -->
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"
+                           Text="{Binding CreatedAt, StringFormat='создано: {0:dd.MM.yyyy HH:mm}'}"
+                           Opacity="0.7" FontStyle="Italic" Margin="0,2,0,6"/>
+
+                <!-- Заголовок и описание -->
+                <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Spacing="4">
+                  <TextBlock Text="{Binding Title}" FontWeight="Bold" TextWrapping="Wrap" Foreground="Black"/>
+                  <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Opacity="0.85" MaxHeight="90" Foreground="Black"/>
+                </StackPanel>
+
+                <!-- Низ: Просрочено над дедлайном -->
+                <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical" Spacing="2" VerticalAlignment="Center">
+                  <TextBlock Text="Просрочено"
+                             IsVisible="{Binding IsOverdue}"
+                             Foreground="Red" FontWeight="Bold"/>
+                  <TextBlock Text="{Binding Deadline, StringFormat='до: {0:dd.MM.yyyy}'}" Foreground="Black"/>
+                </StackPanel>
+
+                <!-- Чекбокс справа -->
+                <CheckBox Grid.Row="3" Grid.Column="1"
+                          Content="Готово"
+                          IsChecked="{Binding IsCompleted, Mode=TwoWay}"
+                          Foreground="Black"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"
+                          Margin="8,0,0,0"/>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </DockPanel>
+</Window>
